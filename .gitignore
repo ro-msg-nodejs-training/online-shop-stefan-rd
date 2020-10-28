@@ -1,3 +1,6 @@
+#MongoDB credentials
+/database-credentials.json
+
 # Logs
 logs
 *.log

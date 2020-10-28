@@ -1,6 +1,9 @@
-let mongoose = require('mongoose');
+const mongoose = require('mongoose');
+const fs = require('fs');
+var credentials = JSON.parse(fs.readFileSync("./database-credentials.json"));
 
-const server = 'mongodb+srv://user1:user@nodejs-training.o0y47.mongodb.net/online-shop?retryWrites=true&w=majority';
+const server = 'mongodb+srv://' + credentials.user + ':' + credentials.password + '@nodejs-training.o0y47.mongodb.net/online-shop?retryWrites=true&w=majority';
+console.log(server)
 
 class Database {
   constructor() {
