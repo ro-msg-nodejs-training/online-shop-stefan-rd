@@ -1,6 +1,9 @@
 #MongoDB credentials
 /database-credentials.json
 
+#tmp folder for storing images
+tmp/
+
 # Logs
 logs
 *.log

@@ -17,7 +17,8 @@ let productSchema = new Schema({
     description: {
         type: String,
         required: false,
-        maxlength: 500
+        maxlength: 500,
+        default: ""
     },
     price: {
         type: Number,
@@ -47,7 +48,8 @@ let productSchema = new Schema({
     imageUrl: {
         type: String,
         required: false,
-        maxlength: 500
+        maxlength: 500,
+        default: ""
     }
 })
 

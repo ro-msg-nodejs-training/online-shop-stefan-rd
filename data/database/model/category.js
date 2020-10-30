@@ -17,7 +17,8 @@ let categorySchema = new Schema({
     description: {
         type: String,
         required: false,
-        maxlength: 500
+        maxlength: 500,
+        default: ""
     }
 })
 
