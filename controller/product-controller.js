@@ -13,7 +13,7 @@ const pathToImageFolder = path.join(__dirname, '..', 'tmp', 'images');
 
 const validateId = (id) => {
     return new Promise((resolve, reject) => {
-        if (Number.isInteger(parseInt(id)) === true && parseInt(id) >= 0) {
+        if (Number.isInteger(id) === true && parseInt(id) >= 0) {
             resolve(true);
         }
         else {
@@ -35,7 +35,7 @@ const validatePositiveDecimal = (number) => {
 
 const checkIfCategoryExists = (categoryId) => {
     return new Promise((resolve, reject) => {
-        CategoryModel.findById(parseInt(categoryId)).exec()
+        CategoryModel.findById(categoryId).exec()
             .then((result) => {
                 if (result === null) {
                     reject("Category not found.")
@@ -49,8 +49,8 @@ const checkIfCategoryExists = (categoryId) => {
 
 const convertRequestBodyToProductModel = (requestBody) => {
     return new Promise((resolve, reject) => {
-        validateId(parseInt(requestBody.id))
-            .then(() => validateId(parseInt(requestBody.categoryId)))
+        validateId(requestBody.id)
+            .then(() => validateId(requestBody.categoryId))
             .then(() => validatePositiveDecimal(parseFloat(requestBody.price)))
             .then(() => validatePositiveDecimal(parseFloat(requestBody.weight)))
             .then(() => resolve(
@@ -60,8 +60,8 @@ const convertRequestBodyToProductModel = (requestBody) => {
                     description: requestBody.description,
                     price: parseFloat(requestBody.price),
                     weight: parseFloat(requestBody.weight),
-                    category: parseInt(requestBody.categoryId),
-                    //supplier: requestBody.supplierId, 
+                    category: requestBody.categoryId,
+                    supplier: requestBody.supplierId, 
                     imageUrl: requestBody.imageUrl
                 })))
             .catch((error) => reject("Could not convert." + error));
@@ -82,7 +82,7 @@ exports.getProductsFromCategory = (req, res) => {
         .then((result) => {
             res.status(200).json(result);
         })
-        .catch((error) => res.status(500).send(error));
+        .catch((error) => res.status(500).send(error.toString()));
 }
 
 exports.getProduct = (req, res) => {
@@ -96,7 +96,7 @@ exports.getProduct = (req, res) => {
                 res.status(200).json(result);
             }
         })
-        .catch((error) => res.status(400).send(error));
+        .catch((error) => res.status(400).send(error.toString()));
 }
 
 exports.addProduct = (req, res) => {
@@ -153,7 +153,7 @@ exports.updateProduct = (req, res) => {
                     }
                 })
         })
-        .catch((error) => res.status(400).send(error));
+        .catch((error) => res.status(400).send(error.toString()));
 }
 
 exports.uploadProductImage = (req, res) => {
@@ -196,7 +196,7 @@ exports.checkIfProductIdIsValid = (req, res, next) => {
                 next();
             }
         })
-        .catch((error) => res.status(400).send(error));
+        .catch((error) => res.status(400).send(error.toString()));
 }
 
 exports.downloadProductImage = (req, res) => {

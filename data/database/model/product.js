@@ -43,7 +43,8 @@ let productSchema = new Schema({
     supplier: {
         type: Number,
         ref: 'Supplier',
-        required: false
+        required: true,
+        autopopulate: true
     },
     imageUrl: {
         type: String,
@@ -56,14 +57,24 @@ let productSchema = new Schema({
 productSchema.post('validate', function () {
     return new Promise((resolve, reject) => {
         const CategoryModel = mongoose.model('Category');
+        const SupplierModel = mongoose.model('Supplier');
         CategoryModel.findById(this.category).exec()
             .then((category) => {
                 if (category === null) {
-                    reject("Category id doesn't exist.")
+                    reject("Category id doesn't exist.");
                 }
-                resolve("Valid category id.")
-            })
-    });
+                SupplierModel.findById(this.supplier).exec()
+                .then((supplier) => {
+                    if (supplier === null) {
+                        reject("Supplier id doesn't exist.");
+                    }
+                    else
+                    {
+                        resolve("Valid category and supplier.");
+                    }
+                })
+            });
+    })
 })
 
 productSchema.plugin(require('mongoose-autopopulate'));

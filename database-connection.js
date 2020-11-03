@@ -1,8 +1,8 @@
 const mongoose = require('mongoose');
-const fs = require('fs');
-var credentials = JSON.parse(fs.readFileSync("./database-credentials.json"));
+const dotenv = require('dotenv');
+dotenv.config();
 
-const server = 'mongodb+srv://' + credentials.user + ':' + credentials.password + '@nodejs-training.o0y47.mongodb.net/online-shop?retryWrites=true&w=majority';
+const server = 'mongodb+srv://' + process.env.MONGO_DB_USER + ':' + process.env.MONGO_DB_PASSWORD + '@nodejs-training.o0y47.mongodb.net/online-shop?retryWrites=true&w=majority';
 
 class Database {
   constructor() {

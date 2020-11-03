@@ -1,6 +1,9 @@
 #MongoDB credentials
 /database-credentials.json
 
+#environment variables
+.env
+
 #tmp folder for storing images
 tmp/
 
@@ -108,3 +111,5 @@ dist
 
 # TernJS port file
 .tern-port
+config.env
+config.env
