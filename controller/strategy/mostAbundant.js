@@ -1,7 +1,17 @@
 const ProductLocationQuantity = require("../../util/product_location_quantity")
 
 
-// eslint-disable-next-line no-unused-vars
+/**
+ * Function/ that computes from which location each product should be taken, considering the quantity of that product 
+ * (take each product from the location which has the largest stock for that particular product)
+ * @param {{address:{streetAddress: string, county: string, city: string},
+ *          productIdsAndQuantities: Object.<string, number>,
+ *          timestamp: string}} order information about the order
+ * @param {Array.<LocationWithAllStock>} locationsWithStock the array containing all locations paired with their respective list of 
+ * stocks
+ * @returns {Promise.<Array.<ProductLocationQuantity>, string>} a promise containing for each product id from the order
+ * the id of the location from which the product is taken and the quantity that is taken
+ */
 exports.run = (order, locationsWithStock) => {
     return new Promise((resolve, reject) => {
         const productIdsAndQuantities = order.productIdsAndQuantities;
