@@ -30,7 +30,6 @@ exports.addOrder = (req, res) => {
         return new Promise((resolve) => {
             saveOrder(req.body, strategyResult)
             .then((savedOrder) =>  {
-                console.log(savedOrder);
                 resolve({order: savedOrder, strategyResult: strategyResult})})
         })
     })
@@ -58,7 +57,7 @@ const updateStock = (strategyResults) => {
 
 const saveOrderDetails = (savedOrder,  strategyResults) => {
     return Promise.all(strategyResults.map(strategyResult => {
-        console.log(strategyResult)
+        //console.log(strategyResult)
         return new OrderDetailModel({
             _id:{
                 product: parseInt(strategyResult.productId),

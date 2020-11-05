@@ -32,8 +32,6 @@ exports.run = (order, locationsWithStock) => {
             }
         }
         resolve(Object.values(results));
-
-
     })
 }
 

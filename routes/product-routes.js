@@ -15,7 +15,6 @@ router.delete('/:id', productController.deleteProduct);
 
 router.put('/', productController.updateProduct);
 
-//delete previous photo - to implement
 router.post('/images/:productId', productController.checkIfProductIdIsValid, upload.upload.single('product-image'), productController.uploadProductImage);
 
 router.delete('/images/:productId', productController.checkIfProductIdIsValid, productController.removeProductImage);
