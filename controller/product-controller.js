@@ -13,7 +13,7 @@ const pathToImageFolder = path.join(__dirname, '..', 'tmp', 'images');
 
 const validateId = (id) => {
     return new Promise((resolve, reject) => {
-        if (Number.isInteger(id) === true && parseInt(id) >= 0) {
+        if (Number.isInteger(parseInt(id)) === true && parseInt(id) >= 0) {
             resolve(true);
         }
         else {
