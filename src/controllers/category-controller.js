@@ -1,7 +1,15 @@
-const CategoryModel = require("../data/database/models/category");
+const CategoryService = require("../services/category-service");
+const HttpError = require("../utils/http-error");
 
-exports.getCategories = (_req, res) => {
-  CategoryModel.find({})
-    .then((result) => res.status(200).json(result))
-    .catch((error) => res.status(500).send(error));
+exports.getCategories = async (_req, res) => {
+  try {
+    const categories = await CategoryService.getCategories();
+    res.status(200).json(categories);
+  } catch (error) {
+    if (error instanceof HttpError) {
+      res.status(error.status).send(error.stack);
+    } else {
+      res.status(500).send(error.stack);
+    }
+  }
 };
