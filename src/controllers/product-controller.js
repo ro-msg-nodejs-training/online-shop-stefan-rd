@@ -1,6 +1,7 @@
 const ProductModel = require("../data/database/models/product");
 const CategoryModel = require("../data/database/models/category");
-const Validator = require("../utils/validation-util");
+const validator = require("../utils/validation-util");
+const productMapper = require("../mappers/product-mapper");
 const fs = require("fs");
 const path = require("path");
 const util = require("util");
@@ -26,34 +27,6 @@ const checkIfCategoryExists = (categoryId) => {
   });
 };
 
-const convertRequestBodyToProductModel = (requestBody) => {
-  return new Promise((resolve, reject) => {
-    Validator.validateId(requestBody.id)
-      .then(() => Validator.validateId(requestBody.categoryId))
-      .then(() =>
-        Validator.validatePositiveDecimal(parseFloat(requestBody.price))
-      )
-      .then(() =>
-        Validator.validatePositiveDecimal(parseFloat(requestBody.weight))
-      )
-      .then(() =>
-        resolve(
-          new ProductModel({
-            _id: parseInt(requestBody.id),
-            name: requestBody.name,
-            description: requestBody.description,
-            price: parseFloat(requestBody.price),
-            weight: parseFloat(requestBody.weight),
-            category: requestBody.categoryId,
-            supplier: requestBody.supplierId,
-            imageUrl: requestBody.imageUrl,
-          })
-        )
-      )
-      .catch((error) => reject("Could not convert." + error));
-  });
-};
-
 exports.getAllProducts = (_req, res) => {
   ProductModel.find({})
     .exec()
@@ -62,7 +35,8 @@ exports.getAllProducts = (_req, res) => {
 };
 
 exports.getProductsFromCategory = (req, res) => {
-  Validator.validateId(req.params.categoryId)
+  validator
+    .validateId(req.params.categoryId)
     .then(() => checkIfCategoryExists(parseInt(req.params.categoryId)))
     .then(() =>
       ProductModel.find({ category: parseInt(req.params.categoryId) }).exec()
@@ -74,7 +48,8 @@ exports.getProductsFromCategory = (req, res) => {
 };
 
 exports.getProduct = (req, res) => {
-  Validator.validateId(req.params.id)
+  validator
+    .validateId(req.params.id)
     .then(() => ProductModel.findById(parseInt(req.params.id)).exec())
     .then((result) => {
       if (result === null) {
@@ -87,14 +62,16 @@ exports.getProduct = (req, res) => {
 };
 
 exports.addProduct = (req, res) => {
-  convertRequestBodyToProductModel(req.body)
+  productMapper
+    .mapRequestBodyToProductModel(req.body)
     .then((productModel) => productModel.save())
     .then((savedProduct) => res.status(200).json(savedProduct))
     .catch((error) => res.send(error));
 };
 
 exports.deleteProduct = (req, res) => {
-  Validator.validateId(req.params.id)
+  validator
+    .validateId(req.params.id)
     .then(() => ProductModel.findByIdAndDelete(parseInt(req.params.id)).exec())
     .then((deletedProduct) => {
       if (deletedProduct === null) {
@@ -114,7 +91,8 @@ exports.deleteProduct = (req, res) => {
 };
 
 exports.updateProduct = (req, res) => {
-  convertRequestBodyToProductModel(req.body)
+  productMapper
+    .mapRequestBodyToProductModel(req.body)
     .then((update) => {
       ProductModel.findById(update.id)
         .exec()
@@ -179,7 +157,8 @@ exports.removeProductImage = (req, res) => {
 };
 
 exports.checkIfProductIdIsValid = (req, res, next) => {
-  Validator.validateId(req.params.productId)
+  validator
+    .validateId(req.params.productId)
     .then(() => ProductModel.findById(parseInt(req.params.productId)).exec())
     .then((product) => {
       if (product === null) {

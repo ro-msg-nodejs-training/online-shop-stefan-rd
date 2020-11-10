@@ -1,20 +1,41 @@
-const StockModel = require("../data/database/models/stock");
-const stockMapper = require("../mappers/stock-mapper");
+const HttpError = require("../utils/http-error");
+const stockService = require("../services/stock-service");
 
-exports.addStock = (req, res) => {
-  stockMapper
-    .mapRequestBodyToStockModel(req.body)
-    .then((stockModel) => stockModel.save())
-    .then((savedStock) => res.status(200).json(savedStock))
-    .catch((error) => res.status(500).send(error.toString()));
+exports.addStock = async (req, res) => {
+  try {
+    const savedStock = await stockService.addStock(req.body);
+    res.status(200).json(savedStock);
+  } catch (error) {
+    if (error instanceof HttpError) {
+      res.status(error.status).send(error.stack);
+    } else {
+      res.status(500).send(error.stack);
+    }
+  }
 };
 
-exports.deleteAllStock = (_req, res) => {
-  StockModel.deleteMany({}).then(() =>
-    res.status(200).send("All stocks removed.")
-  );
+exports.deleteAllStock = async (_req, res) => {
+  try {
+    await stockService.deleteAllStock();
+    res.status(200).json("Successfully deleted all stocks.");
+  } catch (error) {
+    if (error instanceof HttpError) {
+      res.status(error.status).send(error.stack);
+    } else {
+      res.status(500).send(error.stack);
+    }
+  }
 };
 
-exports.getAllStock = (_req, res) => {
-  StockModel.find({}).then((stockList) => res.status(200).json(stockList));
+exports.getAllStock = async (_req, res) => {
+  try {
+    const stocks = await stockService.getAllStocks();
+    res.status(200).json(stocks);
+  } catch (error) {
+    if (error instanceof HttpError) {
+      res.status(error.status).send(error.stack);
+    } else {
+      res.status(500).send(error.stack);
+    }
+  }
 };
