@@ -25,17 +25,16 @@ exports.addOrder = async (req) => {
       const stocksForLocation = await StockModel.find({
         "_id.location": location._id,
         "_id.product": { $exists: true },
-      });
+      }).exec();
       return new LocationWithAllStock(location, stocksForLocation);
     })
   );
 
   const strategyResults = await strategy(orderInformation, locationsWithStocks);
 
-  const updatedStock = updateStock(strategyResults);
+  await updateStock(strategyResults);
   const savedOrder = await saveOrder(orderInformation, strategyResults);
-  const savedOrderDetails = saveOrderDetails(savedOrder, strategyResults);
-  await Promise.all([updatedStock, savedOrderDetails]);
+  await saveOrderDetails(savedOrder, strategyResults);
 
   return savedOrder;
 };
@@ -74,7 +73,7 @@ const updateStock = async (strategyResults) => {
       const stock = await StockModel.findOne({
         "_id.location": strategyResult.locationId,
         "_id.product": strategyResult.productId,
-      });
+      }).exec();
 
       stock.quantity = stock.quantity - strategyResult.quantity;
       return stock.save();

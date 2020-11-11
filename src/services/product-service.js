@@ -53,7 +53,7 @@ exports.addProduct = async (req) => {
   const productModel = await productMapper.mapRequestBodyToProductModel(
     req.body
   );
-  return productModel.save().exec();
+  return productModel.save();
 };
 
 exports.deleteProduct = async (req) => {
@@ -96,7 +96,7 @@ exports.updateProduct = async (req) => {
     productToUpdate.markModified("weight");
     productToUpdate.markModified("category");
 
-    return productToUpdate.save().exec();
+    return productToUpdate.save();
   }
 };
 
@@ -116,7 +116,7 @@ exports.uploadProductImage = async (req) => {
     }
     product.imageUrl = req.file.filename;
     product.markModified("imageUrl");
-    return product.save().exec();
+    return product.save();
   }
 };
 
@@ -135,7 +135,7 @@ exports.removeProductImage = async (req) => {
       await deleteFile(imagePath);
       product.imageUrl = "";
       product.markModified("imageUrl");
-      return product.save().exec();
+      return product.save();
     }
     return product;
   }

@@ -3,7 +3,7 @@ const HttpError = require("../utils/http-error");
 
 exports.addOrder = async (req, res) => {
   try {
-    const savedOrder = await orderService.addStock(req);
+    const savedOrder = await orderService.addOrder(req);
     res.status(200).json(savedOrder);
   } catch (error) {
     if (error instanceof HttpError) {
