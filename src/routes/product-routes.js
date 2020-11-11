@@ -17,22 +17,13 @@ router.put("/", productController.updateProduct);
 
 router.post(
   "/images/:productId",
-  productController.checkIfProductIdIsValid,
   upload.upload.single("product-image"),
   productController.uploadProductImage
 );
 
-router.delete(
-  "/images/:productId",
-  productController.checkIfProductIdIsValid,
-  productController.removeProductImage
-);
+router.delete("/images/:productId", productController.removeProductImage);
 
-router.get(
-  "/images/:productId",
-  productController.checkIfProductIdIsValid,
-  productController.downloadProductImage
-);
+router.get("/images/:productId", productController.downloadProductImage);
 
 router.get("/all/images", productController.getAllImageNames);
 

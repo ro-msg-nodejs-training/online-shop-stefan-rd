@@ -11,7 +11,7 @@ async function validateOrder(order) {
     }),
   });
 
-  return await schema.validateAsync(order, { abortEarly: false });
+  return schema.validateAsync(order, { abortEarly: false });
 }
 
 exports.validateOrder = validateOrder;

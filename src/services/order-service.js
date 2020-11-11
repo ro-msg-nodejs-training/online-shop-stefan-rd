@@ -11,10 +11,12 @@ const LocationWithAllStock = require("../utils/location-stock");
 const HttpError = require("../utils/http-error");
 const orderMapper = require("../mappers/order-mapper");
 
-exports.addOrder = async (requestBody) => {
+exports.addOrder = async (req) => {
+  const orderInformation = req.body;
+
   await Promise.all([
-    checkIfValidProducts(requestBody.productIdsAndQuantities),
-    orderMapper.validateOrder(requestBody),
+    checkIfValidProducts(orderInformation.productIdsAndQuantities),
+    orderMapper.validateOrder(orderInformation),
   ]);
 
   const locations = await LocationModel.find();
@@ -28,10 +30,10 @@ exports.addOrder = async (requestBody) => {
     })
   );
 
-  const strategyResults = await strategy(requestBody, locationsWithStocks);
+  const strategyResults = await strategy(orderInformation, locationsWithStocks);
 
   const updatedStock = updateStock(strategyResults);
-  const savedOrder = await saveOrder(requestBody, strategyResults);
+  const savedOrder = await saveOrder(orderInformation, strategyResults);
   const savedOrderDetails = saveOrderDetails(savedOrder, strategyResults);
   await Promise.all([updatedStock, savedOrderDetails]);
 

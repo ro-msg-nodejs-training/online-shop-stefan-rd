@@ -31,7 +31,7 @@ async function validateProduct(product) {
     imageUrl: joi.string().max(500),
   });
 
-  return await schema.validateAsync(product, { abortEarly: false });
+  return schema.validateAsync(product, { abortEarly: false });
 }
 
 exports.validateProduct = validateProduct;

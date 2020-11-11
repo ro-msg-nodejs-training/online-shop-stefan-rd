@@ -23,7 +23,7 @@ async function validateStock(stock) {
     quantity: joi.number().integer().min(0).required(),
   });
 
-  return await schema.validateAsync(stock, { abortEarly: false });
+  return schema.validateAsync(stock, { abortEarly: false });
 }
 
 exports.validateStock = validateStock;

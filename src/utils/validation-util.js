@@ -1,8 +1,8 @@
 const HttpError = require("./http-error");
 
 exports.validateId = async (id) => {
-  if (Number.isInteger(id) === true && parseInt(id) >= 0) {
-    return true;
+  if (Number.isInteger(parseInt(id)) === true && parseInt(id) >= 0) {
+    return parseInt(id);
   } else {
     throw new HttpError(
       "The given ID is invalid because it is not a positive integer: " + id,

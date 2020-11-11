@@ -3,7 +3,7 @@ const stockService = require("../services/stock-service");
 
 exports.addStock = async (req, res) => {
   try {
-    const savedStock = await stockService.addStock(req.body);
+    const savedStock = await stockService.addStock(req);
     res.status(200).json(savedStock);
   } catch (error) {
     if (error instanceof HttpError) {
