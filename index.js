@@ -7,8 +7,10 @@ const stockRouter = require("./src/routes/stock-routes");
 const app = Express();
 // eslint-disable-next-line no-unused-vars
 const database = require("./database-connection");
+const cors = require("cors");
 
 const PORT = 3000;
+app.use(cors({ origin: "*" }));
 app.use(Express.json());
 app.use("/categories", categoryRouter);
 app.use("/products", productRouter);
