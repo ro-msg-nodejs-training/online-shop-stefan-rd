@@ -7,7 +7,7 @@ exports.getCategories = async (_req, res) => {
     res.status(200).json(categories);
   } catch (error) {
     if (error instanceof HttpError) {
-      res.status(error.status).send(error.stack);
+      res.status(error.status).send(error.message);
     } else {
       res.status(500).send(error.stack);
     }

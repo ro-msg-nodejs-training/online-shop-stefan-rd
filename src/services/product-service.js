@@ -1,5 +1,6 @@
 const ProductModel = require("../data/database/models/product");
 const CategoryModel = require("../data/database/models/category");
+const StockModel = require("../data/database/models/stock");
 const validator = require("../utils/validation-util");
 const productMapper = require("../mappers/product-mapper");
 const fs = require("fs");
@@ -70,6 +71,7 @@ exports.deleteProduct = async (req) => {
     if (deletedProduct.imageUrl !== "") {
       await deleteFile(imagePath);
     }
+    await StockModel.deleteMany({ "_id.product": productId }).exec();
     return deletedProduct;
   }
 };

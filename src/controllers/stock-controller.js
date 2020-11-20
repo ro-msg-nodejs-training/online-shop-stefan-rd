@@ -7,7 +7,7 @@ exports.addStock = async (req, res) => {
     res.status(200).json(savedStock);
   } catch (error) {
     if (error instanceof HttpError) {
-      res.status(error.status).send(error.stack);
+      res.status(error.status).send(error.message);
     } else {
       res.status(500).send(error.stack);
     }
@@ -16,11 +16,11 @@ exports.addStock = async (req, res) => {
 
 exports.deleteAllStock = async (_req, res) => {
   try {
-    await stockService.deleteAllStock();
+    await stockService.deleteAllStocks();
     res.status(200).json("Successfully deleted all stocks.");
   } catch (error) {
     if (error instanceof HttpError) {
-      res.status(error.status).send(error.stack);
+      res.status(error.status).send(error.message);
     } else {
       res.status(500).send(error.stack);
     }
@@ -33,7 +33,7 @@ exports.getAllStock = async (_req, res) => {
     res.status(200).json(stocks);
   } catch (error) {
     if (error instanceof HttpError) {
-      res.status(error.status).send(error.stack);
+      res.status(error.status).send(error.message);
     } else {
       res.status(500).send(error.stack);
     }

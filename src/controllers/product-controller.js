@@ -7,7 +7,7 @@ exports.getAllProducts = async (_req, res) => {
     res.status(200).json(products);
   } catch (error) {
     if (error instanceof HttpError) {
-      res.status(error.status).send(error.stack);
+      res.status(error.status).send(error.message);
     } else {
       res.status(500).send(error.stack);
     }
@@ -20,7 +20,7 @@ exports.getProductsFromCategory = async (req, res) => {
     res.status(200).json(products);
   } catch (error) {
     if (error instanceof HttpError) {
-      res.status(error.status).send(error.stack);
+      res.status(error.status).send(error.message);
     } else {
       res.status(500).send(error.stack);
     }
@@ -33,7 +33,7 @@ exports.getProduct = async (req, res) => {
     res.status(200).json(products);
   } catch (error) {
     if (error instanceof HttpError) {
-      res.status(error.status).send(error.stack);
+      res.status(error.status).send(error.message);
     } else {
       res.status(500).send(error.stack);
     }
@@ -46,7 +46,7 @@ exports.addProduct = async (req, res) => {
     res.status(200).json(products);
   } catch (error) {
     if (error instanceof HttpError) {
-      res.status(error.status).send(error.stack);
+      res.status(error.status).send(error.message);
     } else {
       res.status(500).send(error.stack);
     }
@@ -59,7 +59,7 @@ exports.deleteProduct = async (req, res) => {
     res.status(200).json(products);
   } catch (error) {
     if (error instanceof HttpError) {
-      res.status(error.status).send(error.stack);
+      res.status(error.status).send(error.message);
     } else {
       res.status(500).send(error.stack);
     }
@@ -72,7 +72,7 @@ exports.updateProduct = async (req, res) => {
     res.status(200).json(products);
   } catch (error) {
     if (error instanceof HttpError) {
-      res.status(error.status).send(error.stack);
+      res.status(error.status).send(error.message);
     } else {
       res.status(500).send(error.stack);
     }
@@ -85,7 +85,7 @@ exports.uploadProductImage = async (req, res) => {
     res.status(200).json(products);
   } catch (error) {
     if (error instanceof HttpError) {
-      res.status(error.status).send(error.stack);
+      res.status(error.status).send(error.message);
     } else {
       res.status(500).send(error.stack);
     }
@@ -98,7 +98,7 @@ exports.removeProductImage = async (req, res) => {
     res.status(200).json(products);
   } catch (error) {
     if (error instanceof HttpError) {
-      res.status(error.status).send(error.stack);
+      res.status(error.status).send(error.message);
     } else {
       res.status(500).send(error.stack);
     }
@@ -113,7 +113,7 @@ exports.downloadProductImage = async (req, res) => {
     readStream.pipe(res);
   } catch (error) {
     if (error instanceof HttpError) {
-      res.status(error.status).send(error.stack);
+      res.status(error.status).send(error.message);
     } else {
       res.status(500).send(error.stack);
     }
@@ -126,7 +126,7 @@ exports.getAllImageNames = async (_req, res) => {
     res.status(200).json(products);
   } catch (error) {
     if (error instanceof HttpError) {
-      res.status(error.status).send(error.stack);
+      res.status(error.status).send(error.message);
     } else {
       res.status(500).send(error.stack);
     }
